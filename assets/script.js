@@ -40,7 +40,7 @@ let bannerText = bannerDiv.querySelector("p");
 // Récupérer le point rempli du selecteur .dots
 let dotsBullet = document.querySelector(".dots");
 
-//Point correspondant à la longeur du tableau étape 3
+//Fonction pour ajouter les bullets
 //let i = 0;
 function addDots() {
   for (let i = 0; i < slides.length; i++) {
@@ -58,54 +58,33 @@ let dotsCheck = document.querySelectorAll(".dot");
 
 //----------------------------------------------
 
+// Fonction pour mettre à jour le carousel
+function updateCarousel(index) {
+  // Supprimer la classe ".dot_selected" de tous les points
+  dotsCheck[currentIndex].classList.remove("dot_selected");
+
+  // Mettre à jour l'index de la slide
+  currentIndex = index;
+
+  // Ajouter la classe ".dot_selected" au point correspondant à la slide actuelle
+  dotsCheck[currentIndex].classList.add("dot_selected");
+
+  // Mettre à jour l'image et le texte du carousel
+  bannerImg.src = `./assets/images/slideshow/${slides[currentIndex].image}`;
+  bannerText.innerHTML = slides[currentIndex].tagLine;
+}
 /*event listener sur chacune des flèches*/
 
 // arrow left ------------------------------------
-arrowleft.addEventListener("click", slideLeft);
-function slideLeft() {
-  // console.log("Vous avez cliqué sur la flèche de gauche"); étape 2
-
-  // Supprimer la classe ".dot_selected" de tous les points
-  dotsCheck[currentIndex].classList.remove("dot_selected");
-  /*i -= 1; Renvoyer à la fin du tableau
-    if (i <= 0) {
-      i = slides.length - 1;
-    } else {
-      i--;
-    }*/
-
+arrowleft.addEventListener("click", function() {
   // Mettre à jour l'index de la slide
-  currentIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
+  const newIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
+  updateCarousel(newIndex);
+});
 
-  // Ajouter la classe ".dot_selected" au point correspondant à la slide actuelle
-  dotsCheck[currentIndex].classList.add("dot_selected");
-
-  // Mettre à jour l'image et le texte du carousel
-  bannerImg.src = `./assets/images/slideshow/${slides[currentIndex].image}`;
-  bannerText.innerHTML = slides[currentIndex].tagLine;
-}
-
-// arrow right -----------------------------------------------------------------------
-arrowright.addEventListener("click", slideRight);
-function slideRight() {
-  //console.log("Vous avez cliqué sur la flèche de droite"); étape 2
-
-  // Supprimer la classe ".dot_selected" de tous les points
-  dotsCheck[currentIndex].classList.remove("dot_selected");
-  /*i += 1; lors de létape 4, puis condition pour avoir le défilement étape 5
-
-  if (i >= slides.length - 1) {
-    i = 0;
-  } else {
-    i++;
-  }*/
+// arrow right ------------------------------------
+arrowright.addEventListener("click", function() {
   // Mettre à jour l'index de la slide
-
-  currentIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
-  // Ajouter la classe ".dot_selected" au point correspondant à la slide actuelle
-  dotsCheck[currentIndex].classList.add("dot_selected");
-
-  // Mettre à jour l'image et le texte du carousel
-  bannerImg.src = `./assets/images/slideshow/${slides[currentIndex].image}`;
-  bannerText.innerHTML = slides[currentIndex].tagLine;
-}
+  const newIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
+  updateCarousel(newIndex);
+});
